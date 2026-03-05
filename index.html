@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Arnab Ghorai — IoT + Full-Stack Developer Portfolio" />
+  <title>Arnab Ghorai | Portfolio</title>
+
+  <link rel="preconnect" href="https://unpkg.com" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <!-- 3D background canvas -->
+  <canvas id="bg3d" aria-hidden="true"></canvas>
+
+  <!-- Top nav -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#home" aria-label="Go to top">
+        <span class="brand-dot"></span>
+        <span>Arnab Ghorai</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#contact" class="nav-cta">Contact</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="home">
+    <!-- HERO -->
+    <section class="hero container">
+      <div class="hero-card glass">
+        <div class="kicker">IoT • Embedded • Full-Stack • Applied AI</div>
+
+        <h1>
+          Hi, I’m <span class="accent">Arnab Ghorai</span>.<br/>
+          I build smart systems and modern web apps.
+        </h1>
+
+        <p class="lead">
+          I work on projects across <b>Arduino/ESP robotics</b>, <b>IoT systems</b>, and <b>predictive AI concepts</b> —
+          focused on real-world reliability, clean UI, and scalable backend design.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="#contact">Contact Me</a>
+          <a class="btn ghost" href="./resume.pdf" id="resumeBtn" download>Download Resume</a>
+        </div>
+
+        <div class="mini-stats">
+          <div class="stat">
+            <div class="stat-num">3D</div>
+            <div class="stat-label">Animated Background</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">IoT</div>
+            <div class="stat-label">Hardware + Web</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">AI</div>
+            <div class="stat-label">Prediction Concepts</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="glass side-card">
+          <h3>Highlights</h3>
+          <ul>
+            <li>Gesture-controlled Arduino car via ESP (autonomous fallback)</li>
+            <li>Smart Attendance System (ongoing)</li>
+            <li>Rockfall prediction AI system concept (hackathon selected)</li>
+            <li>Angiography replacement concept (poster award)</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Arduino</span>
+            <span class="chip">ESP32/ESP8266</span>
+            <span class="chip">Raspberry Pi</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">MySQL</span>
+          </div>
+        </div>
+
+        <div class="glass side-card">
+          <h3>Quick Links</h3>
+          <div class="quick-links">
+            <a class="ql" href="#projects">Projects</a>
+            <a class="ql" href="#skills">Skills</a>
+            <a class="ql" href="#achievements">Achievements</a>
+            <a class="ql" href="#contact">Collaborate</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section container">
+      <div class="section-title">
+        <h2>About</h2>
+        <p>Developer focused on practical systems and clean engineering.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="glass card">
+          <h3>Who I am</h3>
+          <p>
+            I’m Arnab Ghorai — a student developer building real-world systems at the intersection of
+            <b>IoT hardware</b> and <b>web software</b>. I enjoy solving practical problems: automation,
+            monitoring, dashboards, robotics, and safety-focused prediction systems.
+          </p>
+          <p class="muted">
+            My priority is reliability: stable APIs, clean UI, and designs that can scale.
+          </p>
+        </div>
+
+        <div class="glass card">
+          <h3>What I do</h3>
+          <ul class="checklist">
+            <li>Embedded prototypes (Arduino / ESP / sensors)</li>
+            <li>IoT systems (Raspberry Pi + dashboards)</li>
+            <li>Full-stack web apps (frontend + backend)</li>
+            <li>Database design (MySQL)</li>
+            <li>Deployment (GitHub Pages / Netlify / Vercel)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section container">
+      <div class="section-title">
+        <h2>Skills</h2>
+        <p>A snapshot of tools I work with.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="glass card">
+          <h3>Embedded / IoT</h3>
+          <div class="tags">
+            <span class="tag">Arduino</span>
+            <span class="tag">ESP32 / ESP8266</span>
+            <span class="tag">Raspberry Pi</span>
+            <span class="tag">Sensors</span>
+            <span class="tag">Wireless Control</span>
+          </div>
+        </div>
+
+        <div class="glass card">
+          <h3>Frontend</h3>
+          <div class="tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Responsive UI</span>
+          </div>
+        </div>
+
+        <div class="glass card">
+          <h3>Backend</h3>
+          <div class="tags">
+            <span class="tag">Node.js</span>
+            <span class="tag">Express</span>
+            <span class="tag">REST APIs</span>
+            <span class="tag">Authentication</span>
+          </div>
+        </div>
+
+        <div class="glass card">
+          <h3>Database</h3>
+          <div class="tags">
+            <span class="tag">MySQL</span>
+            <span class="tag">Schema Design</span>
+            <span class="tag">Query Optimization</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section container">
+      <div class="section-title">
+        <h2>Projects</h2>
+        <p>Selected work (hardware, web, and research concepts).</p>
+      </div>
+
+      <div class="projects-grid">
+        <article class="glass project-card">
+          <div class="project-top">
+            <h3>Smart Attendance System</h3>
+            <span class="badge">IoT + Web</span>
+          </div>
+          <p>
+            An attendance workflow designed for real classrooms, combining automation, authentication,
+            and a clean dashboard for record management.
+          </p>
+          <div class="tags small">
+            <span class="tag">Node.js</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Raspberry Pi</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn small" href="#" target="_blank" rel="noreferrer">Case Study</a>
+            <a class="btn small ghost" href="#" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+
+        <article class="glass project-card">
+          <div class="project-top">
+            <h3>Gesture-Controlled Smart Car</h3>
+            <span class="badge">Embedded</span>
+          </div>
+          <p>
+            Arduino-based car controlled using hand gestures via ESP wireless communication.
+            Includes a fallback mode so the car can operate safely if the connection drops.
+          </p>
+          <div class="tags small">
+            <span class="tag">Arduino</span>
+            <span class="tag">ESP</span>
+            <span class="tag">Wireless</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn small" href="#" target="_blank" rel="noreferrer">Demo</a>
+            <a class="btn small ghost" href="#" target="_blank" rel="noreferrer">GitHub</a>
+          </div>
+        </article>
+
+        <article class="glass project-card">
+          <div class="project-top">
+            <h3>Rockfall Prediction AI System</h3>
+            <span class="badge">AI + Safety</span>
+          </div>
+          <p>
+            Concept for open-pit mines: field sensors monitor vibration and slope to predict
+            blast impact / rockfall risk for the next ~6 hours, supporting early warnings.
+          </p>
+          <div class="tags small">
+            <span class="tag">Sensors</span>
+            <span class="tag">Forecasting</span>
+            <span class="tag">Risk</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn small" href="#" target="_blank" rel="noreferrer">Details</a>
+            <a class="btn small ghost" href="#" target="_blank" rel="noreferrer">Docs</a>
+          </div>
+        </article>
+
+        <article class="glass project-card">
+          <div class="project-top">
+            <h3>Angiography Replacement Concept</h3>
+            <span class="badge">Healthcare</span>
+          </div>
+          <p>
+            Study-focused concept exploring how Doppler-based imaging and advanced modalities
+            (MRI/DWI and microwave imaging ideas) could support less invasive vascular assessment.
+          </p>
+          <div class="tags small">
+            <span class="tag">Doppler</span>
+            <span class="tag">MRI/DWI</span>
+            <span class="tag">Microwave Imaging</span>
+          </div>
+          <div class="project-actions">
+            <a class="btn small" href="#" target="_blank" rel="noreferrer">Poster</a>
+            <a class="btn small ghost" href="#" target="_blank" rel="noreferrer">Summary</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements" class="section container">
+      <div class="section-title">
+        <h2>Achievements</h2>
+        <p>Competitions, hackathons, and participation.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="glass card">
+          <h3>Awards</h3>
+          <ul class="checklist">
+            <li><b>2nd Runner-up</b> — Poster Making Competition (Angiography replacement concept)</li>
+            <li><b>Selected</b> — College-level Hackathon (Rockfall prediction system)</li>
+          </ul>
+        </div>
+
+        <div class="glass card">
+          <h3>Participation</h3>
+          <ul class="checklist">
+            <li>GUVI IMPACT Buildathon — Participation Certificate</li>
+          </ul>
+          <p class="muted tiny">Certificates can be linked here later as PDFs/images.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section container">
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>Let’s connect.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="glass card">
+          <h3>Reach me</h3>
+          <div class="contact-list">
+            <div class="contact-item">
+              <span class="contact-label">Mobile</span>
+              <a href="tel:+918927826085">+91 89278 26085</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Email</span>
+              <a href="mailto:arnabghorai349@gmail.com">arnabghorai349@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">LinkedIn</span>
+              <!-- Replace href with your real LinkedIn profile URL -->
+              <a href="#" id="linkedinLink" target="_blank" rel="noreferrer">Arnab Ghorai</a>
+            </div>
+          </div>
+
+          <p class="muted tiny">
+            Tip: If you want to avoid spam, we can hide your number behind a “click to reveal” button.
+          </p>
+        </div>
+
+        <div class="glass card">
+          <h3>Message (copy/paste)</h3>
+          <textarea id="msgBox" rows="8" spellcheck="false">Hi Arnab, I saw your portfolio. I want to discuss a project/opportunity with you.</textarea>
+          <div class="row">
+            <button class="btn primary" id="copyBtn">Copy Message</button>
+            <button class="btn" id="emailBtn">Email This</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer container">
+      <div class="glass footer-inner">
+        <span>© <span id="year"></span> Arnab Ghorai</span>
+        <span class="muted">Built with HTML • CSS • Three.js</span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Three.js (CDN) -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
