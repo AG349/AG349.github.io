@@ -44,8 +44,11 @@ body::before{
   height:100%;
   z-index:-2;
   filter:saturate(92%);
-  transform:scale(1);
+  transform:scale(1.02);
   pointer-events:none;
+
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 85%);
 }
 
 .container{
@@ -629,3 +632,4 @@ textarea{
   .mini-stats{grid-template-columns:1fr}
   .gallery-grid{grid-template-columns:1fr}
 }
+
