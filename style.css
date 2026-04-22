@@ -590,84 +590,6 @@ textarea{
   text-align:left;
 }
 
-.project-thumb-btn{
-  width:100%;
-  border:none;
-  background:transparent;
-  padding:0;
-  margin:12px 0 10px;
-  cursor:zoom-in;
-  text-align:left;
-  border-radius:16px;
-  overflow:hidden;
-  position:relative;
-}
-
-.project-thumb-img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  display:block;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.03);
-  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
-}
-
-.project-thumb-btn:hover .project-thumb-img{
-  transform:scale(1.02);
-  border-color:rgba(124,92,255,.35);
-  box-shadow:0 18px 40px rgba(0,0,0,.28);
-}
-
-.project-thumb-placeholder{
-  min-height:220px;
-  border-radius:16px;
-  border:1px dashed rgba(255,255,255,.16);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  gap:8px;
-  color:var(--muted);
-  text-align:center;
-  padding:20px;
-  transition:border-color .25s ease, background .25s ease, transform .25s ease;
-}
-
-.project-thumb-placeholder strong{
-  color:var(--text);
-  font-size:15px;
-}
-
-.project-thumb-placeholder span{
-  font-size:13px;
-}
-
-.project-thumb-btn:hover .project-thumb-placeholder{
-  border-color:rgba(0,212,255,.28);
-  background:
-    linear-gradient(180deg, rgba(124,92,255,.08), rgba(0,212,255,.04));
-  transform:translateY(-1px);
-}
-
-.project-upload{
-  display:flex;
-  justify-content:flex-start;
-  margin:0 0 12px;
-}
-
-.project-upload .btn{
-  position:relative;
-  overflow:hidden;
-}
-
-.project-upload input[type="file"]{
-  display:none;
-}
-
 .reveal-wrap{
   display:flex;
   gap:10px;
@@ -775,11 +697,6 @@ textarea{
 }
 
 @media (max-width:720px){
-  .project-thumb-img,
-.project-thumb-placeholder{
-  min-height:180px;
-  height:180px;
-}
   .nav{display:none}
   .menu-btn{display:inline-flex}
   .mobile-menu.show{display:block}
@@ -796,3 +713,24 @@ textarea{
     min-width:100%;
   }
 }
+
+/* Performance + auto-media update overrides */
+body::before{filter:blur(16px)!important;transform:scale(1.01)!important}
+.glass,.topbar,.modal-card,.modal-top{backdrop-filter:blur(8px)!important}
+.hero{padding:38px 0 10px!important}
+.hero-head{display:flex;gap:20px;align-items:flex-start}
+.hero-head-copy{flex:1;min-width:0}
+.profile-avatar-wrap{width:110px;height:110px;border-radius:50%;position:relative;overflow:hidden;flex:0 0 auto;border:1px solid rgba(255,255,255,.14);box-shadow:0 12px 36px rgba(0,0,0,.35);background:linear-gradient(135deg, rgba(124,92,255,.18), rgba(0,212,255,.12))}
+.profile-avatar{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:2}
+.profile-avatar.is-hidden{display:none}
+.profile-avatar-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:32px;letter-spacing:.08em;color:rgba(234,240,255,.95);background:radial-gradient(circle at 30% 30%, rgba(124,92,255,.35), transparent 55%),linear-gradient(135deg, rgba(124,92,255,.22), rgba(0,212,255,.12))}
+.section{content-visibility:auto;contain-intrinsic-size:1px 900px}
+.project-media-actions.is-hidden,.gallery-actions.is-hidden{display:none!important}
+.media-has-image .project-thumb-placeholder,.media-has-image .gallery-thumb-placeholder{display:none!important}
+.media-missing .project-thumb-img,.media-missing .gallery-thumb-img{display:none!important}
+.media-missing .project-thumb-btn,.media-missing .gallery-thumb-btn{cursor:default!important}
+.project-thumb-btn,.gallery-thumb-btn{margin:12px 0 2px!important}
+.project-thumb-img,.gallery-thumb-img{margin:0!important;transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease!important}
+.project-thumb-btn:hover .project-thumb-img,.gallery-thumb-btn:hover .gallery-thumb-img{transform:scale(1.01)!important;border-color:rgba(124,92,255,.28)!important;box-shadow:0 12px 28px rgba(0,0,0,.22)!important}
+.project-thumb-placeholder,.gallery-thumb-placeholder{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02))!important;border:1px dashed rgba(255,255,255,.14)!important}
+@media (max-width:720px){.hero-head{flex-direction:column;align-items:flex-start}.profile-avatar-wrap{width:92px;height:92px}}
