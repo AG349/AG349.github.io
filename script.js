@@ -102,6 +102,46 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
 
+const projectImageInputs = document.querySelectorAll(".project-image-input");
+
+projectImageInputs.forEach((input) => {
+  input.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const projectCard = input.closest(".project-card");
+    if (!projectCard) return;
+
+    const previewBtn = projectCard.querySelector(".project-thumb-btn");
+    const previewImg = projectCard.querySelector(".project-thumb-img");
+    const placeholder = projectCard.querySelector(".project-thumb-placeholder");
+    const actionZoomBtn = projectCard.querySelector('.project-actions [data-open]');
+    const imageTitle = input.getAttribute("data-title") || "Project Image";
+
+    if (!previewBtn || !previewImg) return;
+
+    const objectUrl = URL.createObjectURL(file);
+
+    // Show image
+    previewImg.src = objectUrl;
+    previewImg.alt = imageTitle;
+    previewImg.style.display = "block";
+
+    // Enable zoom
+    previewBtn.setAttribute("data-open", objectUrl);
+    previewBtn.setAttribute("data-title", imageTitle);
+
+    // Update zoom button also
+    if (actionZoomBtn) {
+      actionZoomBtn.setAttribute("data-open", objectUrl);
+      actionZoomBtn.setAttribute("data-title", imageTitle);
+    }
+
+    // Hide placeholder
+    if (placeholder) placeholder.style.display = "none";
+  });
+});
+
 const canvas = document.getElementById("bg3d");
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
