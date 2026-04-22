@@ -76,7 +76,6 @@ const download = document.getElementById("modalDownload");
 
 function openModal(src, title) {
   if (!modal || !modalImg || !modalTitle || !openNewTab || !download || !src) return;
-
   modal.classList.add("show");
   modal.setAttribute("aria-hidden", "false");
   modalImg.src = src;
@@ -90,7 +89,6 @@ function openModal(src, title) {
 
 function closeModal() {
   if (!modal || !modalImg) return;
-
   modal.classList.remove("show");
   modal.setAttribute("aria-hidden", "true");
   modalImg.removeAttribute("src");
@@ -100,16 +98,12 @@ function closeModal() {
 document.addEventListener("click", (e) => {
   const target = e.target.closest("[data-open]");
   if (!target) return;
-
   const src = target.getAttribute("data-open");
   const title = target.getAttribute("data-title") || "Preview";
-
   if (src) openModal(src, title);
 });
 
-if (closeBtn) {
-  closeBtn.addEventListener("click", closeModal);
-}
+if (closeBtn) closeBtn.addEventListener("click", closeModal);
 
 if (modal) {
   modal.addEventListener("click", (e) => {
@@ -121,135 +115,110 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
 
-function getImageSource(img) {
+function setProfileAvatarState() {
+  const profileAvatar = document.getElementById("profileAvatar");
+  if (!profileAvatar) return;
+
+  const wrapper = profileAvatar.closest(".profile-avatar-wrap");
+  const fallback = wrapper ? wrapper.querySelector(".profile-avatar-fallback") : null;
+
+  const showFallback = () => {
+    profileAvatar.classList.add("is-hidden");
+    if (fallback) fallback.style.display = "flex";
+  };
+
+  const showImage = () => {
+    if (profileAvatar.naturalWidth > 0) {
+      profileAvatar.classList.remove("is-hidden");
+      if (fallback) fallback.style.display = "none";
+    } else {
+      showFallback();
+    }
+  };
+
+  profileAvatar.addEventListener("load", showImage);
+  profileAvatar.addEventListener("error", showFallback);
+
+  if (profileAvatar.complete) {
+    showImage();
+  }
+}
+
+function getMediaLoadedSrc(img) {
   const attrSrc = (img.getAttribute("src") || "").trim();
   if (!attrSrc) return "";
-  if (img.naturalWidth > 0) return img.currentSrc || img.src || attrSrc;
+  if (img.complete && img.naturalWidth > 0) return img.currentSrc || img.src || attrSrc;
   return "";
 }
 
-function ensureNoImageBadge(actions) {
-  let badge = actions.querySelector(".project-no-image");
-  if (!badge) {
-    badge = document.createElement("span");
-    badge.className = "btn small ghost project-no-image";
-    badge.textContent = "No Image Uploaded";
-    actions.prepend(badge);
-  }
-  return badge;
-}
-
-function updateProjectCardState(card) {
+function updateMediaCard(card) {
   if (!card) return;
 
-  const previewBtn = card.querySelector(".project-thumb-btn");
-  const previewImg = card.querySelector(".project-thumb-img");
-  const placeholder = card.querySelector(".project-thumb-placeholder");
-  const actions = card.querySelector(".project-actions");
-  const uploadWrap = card.querySelector(".project-upload");
-  const zoomBtn = actions ? actions.querySelector(".project-zoom-btn") : null;
-  const newTabBtn = actions ? actions.querySelector(".project-newtab-btn") : null;
+  const isGallery = card.dataset.mediaCard === "gallery";
+  const img = card.querySelector(isGallery ? ".gallery-thumb-img" : ".project-thumb-img");
+  const btn = card.querySelector(isGallery ? ".gallery-thumb-btn" : ".project-thumb-btn");
+  const placeholder = card.querySelector(isGallery ? ".gallery-thumb-placeholder" : ".project-thumb-placeholder");
+  const actions = card.querySelector(isGallery ? ".gallery-actions" : ".project-media-actions");
+  const zoomBtn = card.querySelector(isGallery ? ".gallery-zoom-btn" : ".media-zoom-btn");
+  const tabBtn = card.querySelector(isGallery ? ".gallery-tab-btn" : ".media-tab-btn");
 
-  if (!previewBtn || !previewImg || !placeholder || !actions) return;
+  if (!img || !btn || !placeholder || !actions) return;
 
-  const loadedSrc = getImageSource(previewImg);
+  const loadedSrc = getMediaLoadedSrc(img);
   const hasImage = loadedSrc !== "";
 
-  if (uploadWrap) uploadWrap.style.display = "none";
+  card.classList.remove("media-has-image", "media-missing");
 
   if (hasImage) {
-    previewImg.style.display = "block";
-    placeholder.style.display = "none";
-    previewBtn.setAttribute("data-open", loadedSrc);
-    previewBtn.setAttribute("aria-disabled", "false");
-
-    const noImageBadge = actions.querySelector(".project-no-image");
-    if (noImageBadge) noImageBadge.style.display = "none";
-
+    card.classList.add("media-has-image");
+    btn.setAttribute("data-open", loadedSrc);
     if (zoomBtn) {
-      zoomBtn.style.display = "inline-flex";
       zoomBtn.setAttribute("data-open", loadedSrc);
-      zoomBtn.setAttribute("data-title", previewBtn.getAttribute("data-title") || "Project Image");
+      zoomBtn.setAttribute("data-title", btn.getAttribute("data-title") || "Preview");
     }
-
-    if (newTabBtn) {
-      newTabBtn.style.display = "inline-flex";
-      newTabBtn.href = loadedSrc;
-      newTabBtn.setAttribute("target", "_blank");
-      newTabBtn.setAttribute("rel", "noreferrer");
+    if (tabBtn) {
+      tabBtn.href = loadedSrc;
+      tabBtn.setAttribute("target", "_blank");
+      tabBtn.setAttribute("rel", "noreferrer");
     }
+    actions.classList.remove("is-hidden");
   } else {
-    previewImg.style.display = "none";
-    previewBtn.removeAttribute("data-open");
-    previewBtn.setAttribute("aria-disabled", "true");
-    placeholder.style.display = "flex";
-
-    if (zoomBtn) {
-      zoomBtn.style.display = "none";
-      zoomBtn.removeAttribute("data-open");
-    }
-
-    if (newTabBtn) {
-      newTabBtn.style.display = "none";
-      newTabBtn.removeAttribute("href");
-    }
-
-    const noImageBadge = ensureNoImageBadge(actions);
-    noImageBadge.style.display = "inline-flex";
+    card.classList.add("media-missing");
+    img.removeAttribute("src");
+    btn.removeAttribute("data-open");
+    if (zoomBtn) zoomBtn.removeAttribute("data-open");
+    if (tabBtn) tabBtn.removeAttribute("href");
+    actions.classList.add("is-hidden");
   }
 }
 
-document.querySelectorAll(".project-thumb-img").forEach((img) => {
+document.querySelectorAll("[data-media-card]").forEach((card) => {
+  const isGallery = card.dataset.mediaCard === "gallery";
+  const img = card.querySelector(isGallery ? ".gallery-thumb-img" : ".project-thumb-img");
+
+  if (!img) {
+    updateMediaCard(card);
+    return;
+  }
+
   img.addEventListener("load", () => {
-    updateProjectCardState(img.closest(".project-card"));
+    updateMediaCard(card);
   });
 
   img.addEventListener("error", () => {
     img.removeAttribute("src");
-    updateProjectCardState(img.closest(".project-card"));
+    updateMediaCard(card);
   });
-});
 
-document.querySelectorAll(".project-card").forEach((card) => {
-  const img = card.querySelector(".project-thumb-img");
-  if (img) {
-    if (img.complete) {
-      if (img.naturalWidth === 0) img.removeAttribute("src");
-      updateProjectCardState(card);
-    } else {
-      updateProjectCardState(card);
-    }
+  if (img.complete) {
+    if (img.naturalWidth === 0) img.removeAttribute("src");
+    updateMediaCard(card);
   } else {
-    updateProjectCardState(card);
+    updateMediaCard(card);
   }
 });
 
-const projectImageInputs = document.querySelectorAll(".project-image-input");
-
-projectImageInputs.forEach((input) => {
-  input.addEventListener("change", (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-
-    const projectCard = input.closest(".project-card");
-    if (!projectCard) return;
-
-    const previewBtn = projectCard.querySelector(".project-thumb-btn");
-    const previewImg = projectCard.querySelector(".project-thumb-img");
-    const imageTitle = input.getAttribute("data-title") || "Project Image";
-
-    if (!previewBtn || !previewImg) return;
-
-    const objectUrl = URL.createObjectURL(file);
-    previewImg.src = objectUrl;
-    previewImg.alt = imageTitle;
-    previewBtn.setAttribute("data-title", imageTitle);
-
-    if (previewImg.complete && previewImg.naturalWidth > 0) {
-      updateProjectCardState(projectCard);
-    }
-  });
-});
+setProfileAvatarState();
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const canvas = document.getElementById("bg3d");
