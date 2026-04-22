@@ -128,97 +128,107 @@ function setProfileAvatarState() {
   };
 
   const showImage = () => {
-    if (profileAvatar.naturalWidth > 0) {
-      profileAvatar.classList.remove("is-hidden");
-      if (fallback) fallback.style.display = "none";
-    } else {
-      showFallback();
-    }
+    profileAvatar.classList.remove("is-hidden");
+    if (fallback) fallback.style.display = "none";
   };
 
-  profileAvatar.addEventListener("load", showImage);
-  profileAvatar.addEventListener("error", showFallback);
-
-  if (profileAvatar.complete) {
-    showImage();
+  if (!profileAvatar.getAttribute("src")) {
+    showFallback();
+    return;
   }
+
+  const tester = new Image();
+  tester.onload = showImage;
+  tester.onerror = showFallback;
+  tester.src = profileAvatar.getAttribute("src");
 }
 
-function getMediaLoadedSrc(img) {
-  const attrSrc = (img.getAttribute("src") || "").trim();
-  if (!attrSrc) return "";
-  if (img.complete && img.naturalWidth > 0) return img.currentSrc || img.src || attrSrc;
-  return "";
-}
-
-function updateMediaCard(card) {
+function setMediaCardState(card, hasImage, loadedSrc) {
   if (!card) return;
 
   const isGallery = card.dataset.mediaCard === "gallery";
   const img = card.querySelector(isGallery ? ".gallery-thumb-img" : ".project-thumb-img");
   const btn = card.querySelector(isGallery ? ".gallery-thumb-btn" : ".project-thumb-btn");
-  const placeholder = card.querySelector(isGallery ? ".gallery-thumb-placeholder" : ".project-thumb-placeholder");
   const actions = card.querySelector(isGallery ? ".gallery-actions" : ".project-media-actions");
   const zoomBtn = card.querySelector(isGallery ? ".gallery-zoom-btn" : ".media-zoom-btn");
   const tabBtn = card.querySelector(isGallery ? ".gallery-tab-btn" : ".media-tab-btn");
 
-  if (!img || !btn || !placeholder || !actions) return;
-
-  const loadedSrc = getMediaLoadedSrc(img);
-  const hasImage = loadedSrc !== "";
+  if (!img || !btn || !actions) return;
 
   card.classList.remove("media-has-image", "media-missing");
 
-  if (hasImage) {
+  if (hasImage && loadedSrc) {
     card.classList.add("media-has-image");
+    img.style.display = "block";
     btn.setAttribute("data-open", loadedSrc);
+
     if (zoomBtn) {
+      zoomBtn.style.display = "inline-flex";
       zoomBtn.setAttribute("data-open", loadedSrc);
       zoomBtn.setAttribute("data-title", btn.getAttribute("data-title") || "Preview");
     }
+
     if (tabBtn) {
+      tabBtn.style.display = "inline-flex";
       tabBtn.href = loadedSrc;
       tabBtn.setAttribute("target", "_blank");
       tabBtn.setAttribute("rel", "noreferrer");
     }
+
     actions.classList.remove("is-hidden");
   } else {
     card.classList.add("media-missing");
+    img.style.display = "none";
     img.removeAttribute("src");
     btn.removeAttribute("data-open");
-    if (zoomBtn) zoomBtn.removeAttribute("data-open");
-    if (tabBtn) tabBtn.removeAttribute("href");
+
+    if (zoomBtn) {
+      zoomBtn.style.display = "none";
+      zoomBtn.removeAttribute("data-open");
+    }
+
+    if (tabBtn) {
+      tabBtn.style.display = "none";
+      tabBtn.removeAttribute("href");
+    }
+
     actions.classList.add("is-hidden");
   }
 }
 
-document.querySelectorAll("[data-media-card]").forEach((card) => {
-  const isGallery = card.dataset.mediaCard === "gallery";
-  const img = card.querySelector(isGallery ? ".gallery-thumb-img" : ".project-thumb-img");
+function initMediaCards() {
+  document.querySelectorAll("[data-media-card]").forEach((card) => {
+    const isGallery = card.dataset.mediaCard === "gallery";
+    const img = card.querySelector(isGallery ? ".gallery-thumb-img" : ".project-thumb-img");
 
-  if (!img) {
-    updateMediaCard(card);
-    return;
-  }
+    if (!img) {
+      setMediaCardState(card, false, "");
+      return;
+    }
 
-  img.addEventListener("load", () => {
-    updateMediaCard(card);
+    const rawSrc = (img.getAttribute("src") || "").trim();
+
+    if (!rawSrc) {
+      setMediaCardState(card, false, "");
+      return;
+    }
+
+    const tester = new Image();
+
+    tester.onload = () => {
+      setMediaCardState(card, true, rawSrc);
+    };
+
+    tester.onerror = () => {
+      setMediaCardState(card, false, "");
+    };
+
+    tester.src = rawSrc;
   });
-
-  img.addEventListener("error", () => {
-    img.removeAttribute("src");
-    updateMediaCard(card);
-  });
-
-  if (img.complete) {
-    if (img.naturalWidth === 0) img.removeAttribute("src");
-    updateMediaCard(card);
-  } else {
-    updateMediaCard(card);
-  }
-});
+}
 
 setProfileAvatarState();
+initMediaCards();
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const canvas = document.getElementById("bg3d");
